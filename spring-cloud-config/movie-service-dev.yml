@@ -2,21 +2,28 @@ server:
   port: 8082
 
 spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbitmq
+    port: 5672
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;
-    username: sa
-    password: sa
-  sql:
-    init:
-      data-locations: classpath:movie.sql
+    url: jdbc:mysql://mysqldb:3306/Movie
+    username: root
+    password: rootpass
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+
+queue:
+  movie:
+    name: Movie
 
 info:
   app:
-    name: movie-service
-    description: Movie Service created for Parcial
-    version: 1.0.0
+    name: ${spring.application.name}
+    description: Movie Service created for Final
+    version: 2.0.0

@@ -11,10 +11,29 @@ spring:
           uri: lb://movie-service
           predicates:
             - Path=/movies/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: moviesService
+                fallbackUri: forward:/fallback/movies
+        - id: serieRoute
+          uri: lb://serie-service
+          predicates:
+            - Path=/series/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: seriesService
+                fallbackUri: forward:/fallback/series
         - id: catalogRoute
           uri: lb://catalog-service
           predicates:
             - Path=/catalogs/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogsService
+                fallbackUri: forward:/fallback/catalogs
 
 management:
   endpoints:
@@ -23,6 +42,6 @@ management:
         include: health,info,gateway
 info:
   app:
-    name: gateway-service
-    description: Gateway Service created for Parcial
-    version: 1.0.0
+    name: ${spring.application.name}
+    description: Gateway Service created for Final
+    version: 2.0.0
